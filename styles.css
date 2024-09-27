@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#controls {
+    margin-bottom: 20px;
+}
+
+#maze {
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    gap: 1px;
+    margin: auto;
+}
+
+.cell {
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wall {
+    background-color: #333;
+}
+
+.start {
+    background-color: #00FF00;
+}
+
+.end {
+    background-color: #FF0000;
+}
+
+.path {
+    background-color: #FFFF00;
+}
+
+.visiting {
+    background-color: rgba(0, 0, 255, 0.5);
+}
