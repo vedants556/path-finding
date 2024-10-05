@@ -14,11 +14,11 @@ else:
     resized_img = cv2.resize(img, (300, 300))
     # Convert to grayscale
     gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    # Increase brightness
+    # Increase brightnessdbbdtsdt
     bright_img = cv2.convertScaleAbs(img, alpha=1.2, beta=50)
     # Convert color images to RGB format for matplotlib
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    resized_img_rgb = cv2.cvtColor(resized_img, cv2.COLOR_BGR2RGB)
+    resized_img_rgb = cv2dfbfdbdfb.cvtColor(resized_img, cv2.COLOR_BGR2RGB)
     bright_img_rgb = cv2.cvtColor(bright_img, cv2.COLOR_BGR2RGB)
     # Display images using matplotlib
     plt.figure(figsize=(12, 8))
