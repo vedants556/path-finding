@@ -221,104 +221,126 @@ header .guide-toggle{
 }
 
 nav {
+    background-color: #000000;
+    padding: 20px 10px;
+    border-bottom: 1px solid #2121DE;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--clr-navy);
-    position: relative;
-    z-index: 2;
 }
 
 #logo {
+    color: #FFFF00;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: var(--pacman-font);
+    margin-right: 15px;
+    text-transform:uppercase
+}
+
+#visualize {
+    background-color: #000000;
+    color: #FFFF00;
+    font-family: var(--pacman-font);
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 20px;
-    font-weight: 600;
-    color: white;
-    text-transform: capitalize;
-    padding: 16px 0;
-    white-space: nowrap;
+    transition: all 0.3s ease;
 }
 
-#logo:hover{
-    color: var(--secondary-clr);
+#visualize:hover {
+    background-color: #FFFF00;
+    color: #000000;
 }
 
-nav {
-    padding: 0 2vw;
-}
 .nav-menu {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    gap: 10px;
 }
 
-.nav-menu a {
-    color: var(--primary-clr); /* Pac-Man yellow */
-}
-.nav-menu>li>a {
-    display: inline-block;
-    padding: 8px 16px;
-    font-weight: 600;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.nav-menu>li>a.active{
-    background-color: var(--primary-clr);
+.nav-menu > li > a, .custom-btn {
+    color: #FFFF00;
+    font-family: var(--pacman-font);
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background-color: #0d0a0a;
+    border: none;
+    cursor: pointer;
 }
 
-
-.nav-menu>li>a:hover {
-    color: var(--secondary-clr); /* Cyan for ghosts */
+.nav-menu > li > a:hover, .custom-btn:hover {
+    background-color: #2121DE;
+    color: #FFFF00;
 }
-.nav-menu>li>a.active:hover {
-    color: white;
-}
+ 
 
-/* -------------- dropbox -------------------- */
 .drop-box {
     position: relative;
 }
 
-.drop-box .drop-toggle{
-    display: flex;
-    align-items: center;
+.drop-menu {
+    display: none;
+    background-color: #000000;
+    border: 1px solid #2121DE;
+    border-radius: 5px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1000;
+    top: 100%;
+    right: 0;
 }
 
-.drop-box .drop-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    z-index: 10;
-    background-color: var(--clr-navy);
-    width: max-content;
-    min-width: 130px;
-    font-size: 14px;
-    border-radius: 8px;
-    padding: 4px;
-    top: calc(100% + 14px);
-}
-.drop-box .drop-menu.active{
+.drop-box:hover .drop-menu {
     display: block;
 }
 
 .drop-menu a {
+    color: #FFFF00;
+    padding: 5px 8px;
+    font-family: var(--pacman-font);
+    font-size: 11px;
+    transition: all 0.3s ease;
+    display: block;
+    white-space: nowrap;
+}
+
+.drop-menu a:hover, .drop-menu a.active {
+    background-color: #2121DE;
+    color: #FFFF00;
+}
+
+.carret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #FFFF00;
     display: inline-block;
-    width: 100%;
-    border-radius: 4px;
-    padding: 6px 4px;
-    margin-bottom: 1px !important;
-}
-.drop-menu a.active,
-.drop-menu a:hover{
-    background-color: var(--secondary-clr); /* Cyan for ghosts */
-}
-.drop-menu a:last-child {
-    margin-bottom: 0;
+    margin-left: 3px;
 }
 
+.custom-btn {
+    background-color: #000000;
+    color: #FFFF00;
+    border: 1px solid #FFFF00;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-family: var(--pacman-font);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.custom-btn:hover {
+    background-color: #FFFF00;
+    color: #000000;
+}
 
-/* =========== guide =========== */
 .guide {
     padding: 20px;
     display: flex;
