@@ -32,7 +32,7 @@ The Pac-Man Path Finder Visualizer is an interactive web application that helps 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/pacman-pathfinder-visualizer.git
+   git clone https://github.com/vedants556/pacman-pathfinder-visualizer.git
    ```
 2. Navigate to the project directory:
    ```bash
