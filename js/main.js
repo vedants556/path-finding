@@ -38,8 +38,6 @@ function visualizePath(path) {
         el.classList.remove('pacman', 'pellet');
     });
 
-    // Animate Pac-Man eating the path
-    animatePacmanPath(path);
 }
 
 

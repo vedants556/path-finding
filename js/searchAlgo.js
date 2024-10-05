@@ -47,7 +47,6 @@ function BFS() {
             animate(searchToAnimate, 'visited', delay);
             setTimeout(() => {
                 animate(pathToAnimate, 'path', delay);
-                animatePacman(pathToAnimate);
             }, searchToAnimate.length * delay);
             return;
         }
@@ -73,7 +72,7 @@ function BFS() {
 // ===================== Dijkstra ⚙️🦾 =====================
 // ==========================================================
 
-function DFS(current) {
+function Dijkstra(current) {
     searchToAnimate.push(matrix[current.x][current.y]);
     visited.add(`${current.x}-${current.y}`);
 
@@ -82,7 +81,6 @@ function DFS(current) {
         animate(searchToAnimate, 'visited', delay);
         setTimeout(() => {
             animate(pathToAnimate, 'path', delay);
-            animatePacman(pathToAnimate);
         }, searchToAnimate.length * delay);
         return true;
     }
@@ -137,7 +135,6 @@ function Astar() {
             animate(searchToAnimate, 'visited', delay);
             setTimeout(() => {
                 animate(pathToAnimate, 'path', delay);
-                animatePacman(pathToAnimate);
             }, searchToAnimate.length * delay);
             return;
         }
@@ -192,7 +189,6 @@ function greedy() {
             animate(searchToAnimate, 'visited', delay);
             setTimeout(() => {
                 animate(pathToAnimate, 'path', delay);
-                animatePacman(pathToAnimate);
             }, searchToAnimate.length * delay);
             return;
         }
@@ -244,7 +240,6 @@ function DFS(current) {
     animate(searchToAnimate, 'visited', delay);
     setTimeout(() => {
         animate(pathToAnimate, 'path', delay);
-        animatePacman(pathToAnimate);
     }, searchToAnimate.length * delay)
 
     return false;
@@ -287,7 +282,6 @@ function biDirectional() {
             animate(searchToAnimate, 'visited', delay);
             setTimeout(() => {
                 animate(pathToAnimate, 'path', delay);
-                animatePacman(pathToAnimate);
             }, searchToAnimate.length * delay);
             return;
         }
@@ -317,80 +311,10 @@ function biDirectional() {
 }
 
 
-// function animatePacman(path) {
-//     const pacman = document.createElement('div');
-//     pacman.className = 'pacman';
-//     document.body.appendChild(pacman);
-
-//     path.forEach((node, index) => {
-//         setTimeout(() => {
-//             const rect = node.getBoundingClientRect();
-//             pacman.style.left = `${rect.left}px`;
-//             pacman.style.top = `${rect.top}px`;
-
-//             if (index === path.length - 1) {
-//                 setTimeout(() => {
-//                     pacman.remove();
-//                 }, 500);
-//             }
-//         }, index * 300);
-//     });
-// }
-// direction
-function animatePacman(path) {
-    const pacman = document.createElement('div');
-    pacman.className = 'pacman';
-    document.body.appendChild(pacman);
-
-    let currentIndex = 0;
-
-    function movePacman() {
-        if (currentIndex >= path.length) {
-            pacman.remove();
-            return;
-        }
-
-        const currentNode = path[currentIndex];
-        const rect = currentNode.getBoundingClientRect();
-        
-        pacman.style.transition = 'left 0.3s linear, top 0.3s linear';
-        pacman.style.left = `${rect.left}px`;
-        pacman.style.top = `${rect.top}px`;
-
-        if (currentIndex < path.length - 1) {
-            const nextNode = path[currentIndex + 1];
-            const dx = nextNode.getBoundingClientRect().left - rect.left;
-            const dy = nextNode.getBoundingClientRect().top - rect.top;
-
-            let rotation = 0;
-            if (dx > 0) rotation = 0;
-            else if (dx < 0) rotation = 180;
-            else if (dy < 0) rotation = 270;
-            else if (dy > 0) rotation = 90;
-
-            pacman.style.transform = `rotate(${rotation}deg)`;
-        }
-
-        currentIndex++;
-        setTimeout(movePacman, 300);
-    }
-
-    movePacman();
-}
-
-
 function animate(cells, className, delay, callback) {
     cells.forEach((cell, index) => {
         setTimeout(() => {
-            if (className === 'path') {
-                if (index !== 0 && index !== cells.length - 1) {
-                    const dot = document.createElement('div');
-                    dot.className = 'dot';
-                    cell.appendChild(dot);
-                }
-            } else {
-                cell.classList.add(className);
-            }
+            cell.classList.add(className);
             if (index === cells.length - 1 && callback) {
                 callback();
             }
