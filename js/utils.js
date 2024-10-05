@@ -88,55 +88,21 @@ function animate(list, className, delay) {
     }
 }
 
-
-
 class PriorityQueue {
     constructor() {
         this.elements = [];
-        this.length = 0;
     }
-    push(data) {
-        this.elements.push(data);
-        this.length++;
-        this.upHeapify(this.length - 1);
+
+    push(element) {
+        this.elements.push(element);
+        this.elements.sort((a, b) => a.cost - b.cost);
     }
+
     pop() {
-        this.swap(0, this.length - 1);
-        const popped = this.elements.pop();
-        this.length--;
-        this.downheapify(0);
-        return popped;
+        return this.elements.shift();
     }
 
-    upHeapify(i) {
-        if (i === 0) return;
-        const parent = Math.floor((i - 1) / 2);
-        if (this.elements[i].cost < this.elements[parent].cost) {
-            this.swap(parent, i);
-            this.upHeapify(parent);
-        }
-    }
-    downheapify(i) {
-        let minNode = i;
-        const leftChild = (2 * i) + 1;
-        const rightChild = (2 * i) + 2;
-
-        if (leftChild < this.length && this.elements[leftChild].cost < this.elements[minNode].cost) {
-            minNode = leftChild;
-        }
-        if (rightChild < this.length && this.elements[rightChild].cost < this.elements[minNode].cost) {
-            minNode = rightChild;
-        }
-
-        if (minNode !== i) {
-            this.swap(minNode, i);
-            this.downheapify(minNode);
-        }
-    }
     isEmpty() {
-        return this.length === 0;
-    }
-    swap(x, y) {
-        [this.elements[x], this.elements[y]] = [this.elements[y], this.elements[x]];
+        return this.elements.length === 0;
     }
 }

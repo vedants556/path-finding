@@ -8,7 +8,7 @@ visualizeBtn.addEventListener('click', () => {
     pathToAnimate = [];
 
     switch (algorithm) {
-        case '': BFS(); break;
+        case '': Astar(); break;
         case 'BFS': BFS(); break;
         case 'A*': Astar(); break;
         case 'Greedy': greedy(); break;
@@ -72,31 +72,46 @@ function BFS() {
 // ===================== Dijkstra ⚙️🦾 =====================
 // ==========================================================
 
-function Dijkstra(current) {
-    searchToAnimate.push(matrix[current.x][current.y]);
-    visited.add(`${current.x}-${current.y}`);
+function Dijkstra() {
+    const pq = new PriorityQueue();
+    const visited = new Set();
+    const parent = new Map();
+    const distances = new Map();
 
-    if (current.x === target.x && current.y === target.y) {
-        pathToAnimate = backtrack(parent, target).reverse();
-        animate(searchToAnimate, 'visited', delay);
-        setTimeout(() => {
-            animate(pathToAnimate, 'path', delay);
-        }, searchToAnimate.length * delay);
-        return true;
-    }
+    pq.push({ cordinate: source, cost: 0 });
+    distances.set(`${source.x}-${source.y}`, 0);
 
-    const neighbours = getNeighbours(current);
-    for (const neighbour of neighbours) {
-        if (isValid(neighbour.x, neighbour.y) &&
-            !visited.has(`${neighbour.x}-${neighbour.y}`) &&
-            !matrix[neighbour.x][neighbour.y].classList.contains('wall')) {
-            if (DFS(neighbour)) {
-                pathToAnimate.push(matrix[neighbour.x][neighbour.y]);
-                return true;
+    while (!pq.isEmpty()) {
+        const { cordinate: current, cost: currentCost } = pq.pop();
+        searchToAnimate.push(matrix[current.x][current.y]);
+
+        if (current.x === target.x && current.y === target.y) {
+            pathToAnimate = backtrack(parent, target).reverse();
+            animate(searchToAnimate, 'visited', delay);
+            setTimeout(() => {
+                animate(pathToAnimate, 'path', delay);
+            }, searchToAnimate.length * delay);
+            return;
+        }
+
+        if (visited.has(`${current.x}-${current.y}`)) continue;
+        visited.add(`${current.x}-${current.y}`);
+
+        const neighbours = getNeighbours(current);
+        for (const neighbour of neighbours) {
+            if (isValid(neighbour.x, neighbour.y) &&
+                !visited.has(`${neighbour.x}-${neighbour.y}`) &&
+                !matrix[neighbour.x][neighbour.y].classList.contains('wall')) {
+                const newCost = currentCost + 1; // Assuming each step costs 1
+                const neighbourKey = `${neighbour.x}-${neighbour.y}`;
+                if (!distances.has(neighbourKey) || newCost < distances.get(neighbourKey)) {
+                    distances.set(neighbourKey, newCost);
+                    parent.set(neighbourKey, current);
+                    pq.push({ cordinate: neighbour, cost: newCost });
+                }
             }
         }
     }
-    return false;
 }
 
 
@@ -110,24 +125,18 @@ function Dijkstra(current) {
 function Astar() {
     const queue = new PriorityQueue();
     const visited = new Set();
-    const queued = new Set();
     const parent = new Map();
-    const gScore = [];
+    const gScore = new Map();
+    const fScore = new Map();
 
-    for (let i = 0; i < row; i++) {
-        const INF = [];
-        for (let j = 0; j < col; j++) {
-            INF.push(Infinity);
-        }
-        gScore.push(INF);
-    }
+    const start = `${source.x}-${source.y}`;
+    gScore.set(start, 0);
+    fScore.set(start, heuristicValue(source));
+    queue.push({ cordinate: source, cost: fScore.get(start) });
 
-    gScore[source.x][source.y] = 0;
-    queue.push({ cordinate: source, cost: heuristicValue(source) });
-    visited.add(`${source.x}-${source.y}`);
-
-    while (queue.length > 0) {
+    while (!queue.isEmpty()) {
         const { cordinate: current } = queue.pop();
+        const currentKey = `${current.x}-${current.y}`;
         searchToAnimate.push(matrix[current.x][current.y]);
 
         if (current.x === target.x && current.y === target.y) {
@@ -139,31 +148,29 @@ function Astar() {
             return;
         }
 
-        visited.add(`${current.x}-${current.y}`);
-        queued.delete(`${current.x}-${current.y}`);
+        visited.add(currentKey);
 
         const neighbours = getNeighbours(current);
         for (const neighbour of neighbours) {
+            const neighbourKey = `${neighbour.x}-${neighbour.y}`;
             if (isValid(neighbour.x, neighbour.y) &&
-                !visited.has(`${neighbour.x}-${neighbour.y}`) &&
+                !visited.has(neighbourKey) &&
                 !matrix[neighbour.x][neighbour.y].classList.contains('wall')) {
-                const tentative_gScore = gScore[current.x][current.y] + 1;
+                const tentative_gScore = gScore.get(currentKey) + 1;
 
-                if (tentative_gScore < gScore[neighbour.x][neighbour.y]) {
-                    parent.set(`${neighbour.x}-${neighbour.y}`, current);
-                    gScore[neighbour.x][neighbour.y] = tentative_gScore;
-                    const fScore = gScore[neighbour.x][neighbour.y] + heuristicValue(neighbour);
-
-                    if (!queued.has(`${neighbour.x}-${neighbour.y}`)) {
-                        queue.push({ cordinate: neighbour, cost: fScore });
-                        queued.add(`${neighbour.x}-${neighbour.y}`);
+                if (!gScore.has(neighbourKey) || tentative_gScore < gScore.get(neighbourKey)) {
+                    parent.set(neighbourKey, current);
+                    gScore.set(neighbourKey, tentative_gScore);
+                    fScore.set(neighbourKey, gScore.get(neighbourKey) + heuristicValue(neighbour));
+                    
+                    if (!queue.elements.some(el => el.cordinate.x === neighbour.x && el.cordinate.y === neighbour.y)) {
+                        queue.push({ cordinate: neighbour, cost: fScore.get(neighbourKey) });
                     }
                 }
             }
         }
     }
 }
-
 
 
 
