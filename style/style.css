@@ -531,15 +531,15 @@ nav {
     border: 1px solid #ffffff80;
     transition: 0.5s ease;
     user-select: none;
+    font-family: var(--pacman-font);
   }
   
   .custom-btn:hover,
   .custom-btn:focus {
-    color: #ffffff;
-    background: #008cff;
-    border: 1px solid #008cff;
+    color: #000000;
+    background: #FFFF00; /* Pac-Man yellow */
+    border: 1px solid #FFFF00;
     text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
-    box-shadow: 0 0 5px #008cff, 0 0 20px #008cff, 0 0 50px #008cff,
-      0 0 100px #008cff;
+    box-shadow: 0 0 5px #FFFF00, 0 0 20px #FFFF00, 0 0 50px #FFFF00,
+      0 0 100px #FFFF00;
   }
-  
